@@ -1,3 +1,53 @@
 # Pi Parallelization Examples
 
-Exploring several strategies for parallelizing code.
+Benchmarking several strategies for parallelly computing pi.
+
+This project is largely inspired by
+
+  * the course ["Foundations of Computer Science 4"](https://gi4.rwth-aachen.de/) at RWTH Aachen University
+    * Much of the assembly code is based on [os/gi4/chapter2/pi](https://git.rwth-aachen.de/os/gi4/tree/master/chapter2/pi)
+  * the ["Parallelism in C++"](https://www.youtube.com/playlist?list=PLzLzYGEbdY5lrUYSssHfk5ahwZERojgid) video series ([repository](https://github.com/bisqwit/cpp_parallelization_examples)) by [Bisqwit](https://www.youtube.com/user/Bisqwit)
+
+## Introduction
+
+Pi can be computed using the following integral:
+
+![\large \int_{0}^{1} \frac{4}{1+x^{2}} \; \mathrm{d}x = [ 4 \tan^{-1}(x) ]_{0}^{1} = \pi \approx 3.1416](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cint_%7B0%7D%5E%7B1%7D%20%5Cfrac%7B4%7D%7B1&plus;x%5E%7B2%7D%7D%20%5C%3B%20%5Cmathrm%7Bd%7Dx%20%3D%20%5B%204%20%5Ctan%5E%7B-1%7D%28x%29%20%5D_%7B0%7D%5E%7B1%7D%20%3D%20%5Cpi%20%5Capprox%203.1416)
+
+The integral can be approximated using the [midpoint rule](https://en.wikipedia.org/wiki/Riemann_sum#Midpoint_rule):
+
+![\large \int_{0}^{1} \frac{4}{1+x^{2}} \; \mathrm{d} x = \lim_{\|\Delta x\|\rightarrow0} \sum_{i=1}^{n}  \frac{4}{1+{x_i^*}^{2}} \,\Delta x_i \approx \sum_{i=0}^{{10}^6-1}  \frac{4}{1+((i+0.5)*{10}^{-6})^{2}} \,{10}^{-6}](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cint_%7B0%7D%5E%7B1%7D%20%5Cfrac%7B4%7D%7B1&plus;x%5E%7B2%7D%7D%20%5C%3B%20%5Cmathrm%7Bd%7D%20x%20%3D%20%5Clim_%7B%5C%7C%5CDelta%20x%5C%7C%5Crightarrow0%7D%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%20%5Cfrac%7B4%7D%7B1&plus;%7Bx_i%5E*%7D%5E%7B2%7D%7D%20%5C%2C%5CDelta%20x_i%20%5Capprox%20%5Csum_%7Bi%3D0%7D%5E%7B%7B10%7D%5E6-1%7D%20%5Cfrac%7B4%7D%7B1&plus;%28%28i&plus;0.5%29*%7B10%7D%5E%7B-6%7D%29%5E%7B2%7D%7D%20%5C%2C%7B10%7D%5E%7B-6%7D)
+
+The summands can be computed independently. We will explore and benchmark some strategies to parallelize this.
+
+## Requirements
+
+* A `C++` compiler
+
+* [Meson](https://mesonbuild.com/Getting-meson.html)
+
+## [Compiling](https://mesonbuild.com/Running-Meson.html)
+
+To setup a [build directory](http://voices.canonical.com/jussi.pakkanen/2013/04/16/why-you-should-consider-using-separate-build-directories/)
+called `buildclangrelease` to build with [Clang](https://clang.llvm.org/), full optimization and without debug info, run:
+
+```bash
+$ CC=clang CXX=clang++ meson setup --buildtype=release buildclangrelease
+```
+
+The project can be built and tested with:
+
+```bash
+$ ninja -C buildclangrelease
+$ ninja -C buildclangrelease test
+```
+
+Run the benchmark with:
+
+```bash
+$ ./buildclangrelease/pi-calculator-benchmark
+```
+
+## License
+
+[GLP3](LICENSE.md)
