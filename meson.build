@@ -14,7 +14,8 @@ pi_calculator_deps = [openmp_dep]
 
 pi_calculator_src = files(
   'src/PiCalculatorVanilla.cpp',
-  'src/PiCalculatorOpenMPSIMD.cpp'
+  'src/PiCalculatorOpenMPSIMD.cpp',
+  'src/PiCalculatorOpenMPParallel.cpp'
 )
 
 pi_calculator_benchmark_src = pi_calculator_src + files('src/PiCalculatorBenchmark.cpp')

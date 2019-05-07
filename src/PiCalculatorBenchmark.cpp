@@ -1,5 +1,6 @@
 #include "benchmark/benchmark.h"
 
+#include "PiCalculatorOpenMPParallel.hpp"
 #include "PiCalculatorOpenMPSIMD.hpp"
 #include "PiCalculatorVanilla.hpp"
 
@@ -14,5 +15,8 @@ BENCHMARK(BM_PiCalculatorVanilla);
 
 static auto BM_PiCalculatorOpenMPSIMD = BM_PiCalculator<PiCalculatorOpenMPSIMD>;
 BENCHMARK(BM_PiCalculatorOpenMPSIMD);
+
+static auto BM_PiCalculatorOpenMPParallel = BM_PiCalculator<PiCalculatorOpenMPParallel>;
+BENCHMARK(BM_PiCalculatorOpenMPParallel);
 
 BENCHMARK_MAIN();
