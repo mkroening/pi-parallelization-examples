@@ -3,6 +3,7 @@
 #include "gtest/gtest.h"
 
 #include "PiCalculatorOpenMPParallel.hpp"
+#include "PiCalculatorOpenMPParallelSIMD.hpp"
 #include "PiCalculatorOpenMPSIMD.hpp"
 #include "PiCalculatorVanilla.hpp"
 
@@ -19,3 +20,5 @@ PI_CALCULATOR_TEST(PiCalculatorVanilla)
 PI_CALCULATOR_TEST(PiCalculatorOpenMPSIMD)
 
 PI_CALCULATOR_TEST(PiCalculatorOpenMPParallel)
+
+PI_CALCULATOR_TEST(PiCalculatorOpenMPParallelSIMD)
