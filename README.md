@@ -16,7 +16,12 @@ Pi can be computed using the following integral:
 
 The integral can be approximated using the [midpoint rule](https://en.wikipedia.org/wiki/Riemann_sum#Midpoint_rule):
 
-![\large \int_{0}^{1} \frac{4}{1+x^{2}} \; \mathrm{d} x = \lim_{\|\Delta x\|\rightarrow0} \sum_{i=1}^{n}  \frac{4}{1+{x_i^*}^{2}} \,\Delta x_i \approx \sum_{i=0}^{{10}^6-1}  \frac{4}{1+((i+0.5)*{10}^{-6})^{2}} \,{10}^{-6}](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cint_%7B0%7D%5E%7B1%7D%20%5Cfrac%7B4%7D%7B1&plus;x%5E%7B2%7D%7D%20%5C%3B%20%5Cmathrm%7Bd%7D%20x%20%3D%20%5Clim_%7B%5C%7C%5CDelta%20x%5C%7C%5Crightarrow0%7D%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%20%5Cfrac%7B4%7D%7B1&plus;%7Bx_i%5E*%7D%5E%7B2%7D%7D%20%5C%2C%5CDelta%20x_i%20%5Capprox%20%5Csum_%7Bi%3D0%7D%5E%7B%7B10%7D%5E6-1%7D%20%5Cfrac%7B4%7D%7B1&plus;%28%28i&plus;0.5%29*%7B10%7D%5E%7B-6%7D%29%5E%7B2%7D%7D%20%5C%2C%7B10%7D%5E%7B-6%7D)
+![\large \int_{0}^{1} \frac{4}{1+x^{2}} \; \mathrm{d} x = \lim_{\|\Delta x\|\rightarrow0} \sum_{i=1}^{n}  \frac{4}{1+{x_i^*}^{2}} \,\Delta x_i \\
+\approx \sum_{i=0}^{{10}^6-1}  \frac{4}{1+((i+0.5)*{10}^{-6})^{2}} \,{10}^{-6} =: S](https://latex.codecogs.com/svg.latex?%5Clarge%20%5Cint_%7B0%7D%5E%7B1%7D%20%5Cfrac%7B4%7D%7B1&plus;x%5E%7B2%7D%7D%20%5C%3B%20%5Cmathrm%7Bd%7D%20x%20%3D%20%5Clim_%7B%5C%7C%5CDelta%20x%5C%7C%5Crightarrow0%7D%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%20%5Cfrac%7B4%7D%7B1&plus;%7Bx_i%5E*%7D%5E%7B2%7D%7D%20%5C%2C%5CDelta%20x_i%20%5C%5C%20%5Capprox%20%5Csum_%7Bi%3D0%7D%5E%7B%7B10%7D%5E6-1%7D%20%5Cfrac%7B4%7D%7B1&plus;%28%28i&plus;0.5%29*%7B10%7D%5E%7B-6%7D%29%5E%7B2%7D%7D%20%5C%2C%7B10%7D%5E%7B-6%7D%20%3D%3A%20S)
+
+The deviation from pi is small:
+
+![\large |\pi - S| <  8.\overline{3}*{10}^{-14}](https://latex.codecogs.com/svg.latex?%5Clarge%20%7C%5Cpi%20-%20S%7C%20%3C%208.%5Coverline%7B3%7D*%7B10%7D%5E%7B-14%7D)
 
 The summands can be computed independently. We will explore and benchmark some strategies to parallelize this.
 
