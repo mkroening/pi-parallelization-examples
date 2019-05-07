@@ -9,8 +9,12 @@ project('pi-parallelization-examples', 'cpp',
 
 pi_parallelization_examples_inc = include_directories('include')
 
+openmp_dep = dependency('openmp')
+pi_calculator_deps = [openmp_dep]
+
 pi_calculator_src = files(
-  'src/PiCalculatorVanilla.cpp'
+  'src/PiCalculatorVanilla.cpp',
+  'src/PiCalculatorOpenMPSIMD.cpp'
 )
 
 pi_calculator_benchmark_src = pi_calculator_src + files('src/PiCalculatorBenchmark.cpp')
@@ -20,7 +24,7 @@ google_benchmark_dep = google_benchmark_proj.get_variable('google_benchmark_dep'
 
 executable('pi-calculator-benchmark', pi_calculator_benchmark_src,
   include_directories : pi_parallelization_examples_inc,
-  dependencies : google_benchmark_dep,
+  dependencies : [pi_calculator_deps, google_benchmark_dep],
   install : true
 )
 
@@ -31,7 +35,7 @@ gtest_dep = gtest_proj.get_variable('gtest_main_dep')
 
 pi_calculator_test_exe = executable('pi-calculator-test', pi_calculator_test_src,
   include_directories : pi_parallelization_examples_inc,
-  dependencies : gtest_dep,
+  dependencies : [pi_calculator_deps, gtest_dep],
   install : false
 )
 

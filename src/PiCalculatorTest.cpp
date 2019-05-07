@@ -2,9 +2,10 @@
 
 #include "gtest/gtest.h"
 
+#include "PiCalculatorOpenMPSIMD.hpp"
 #include "PiCalculatorVanilla.hpp"
 
-#define ALLOWED_DEVIATION 1e-13
+#define ALLOWED_DEVIATION 1e-12
 
 #define PI_CALCULATOR_TEST(piCalculator)                                       \
   TEST(piCalculator##Test, HasCorrectResult) {                                 \
@@ -13,3 +14,5 @@
   }
 
 PI_CALCULATOR_TEST(PiCalculatorVanilla)
+
+PI_CALCULATOR_TEST(PiCalculatorOpenMPSIMD)
