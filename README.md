@@ -29,6 +29,8 @@ The summands can be computed independently. We will explore and benchmark some s
 
 * A `C++` compiler
 
+* [OpenMP](https://www.openmp.org/resources/openmp-compilers-tools/)
+
 * [NASM](https://www.nasm.us/index.php)
 
 * [Meson](https://mesonbuild.com/Getting-meson.html)
