@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "PiCalculator.hpp"
+#include "PiCalculatorAVXIntrin.hpp"
 #include "PiCalculatorAVXASM.hpp"
 #include "PiCalculatorOpenMPParallel.hpp"
 #include "PiCalculatorOpenMPParallelSIMD.hpp"
@@ -42,5 +43,8 @@ BENCHMARK(BM_PiCalculatorOpenMPParallelSIMD);
 
 BM_PI_CALCULATOR_ISA(PiCalculatorAVXASM, avx)
 BENCHMARK(BM_PiCalculatorAVXASM);
+
+BM_PI_CALCULATOR_ISA(PiCalculatorAVXIntrin, avx)
+BENCHMARK(BM_PiCalculatorAVXIntrin);
 
 BENCHMARK_MAIN();

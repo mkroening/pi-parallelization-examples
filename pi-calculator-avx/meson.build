@@ -1,10 +1,14 @@
 pi_calculator_avx_inc = include_directories('include')
 pi_calculator_avx_src = [
-  files('src/PiCalculatorAVXASM.cpp'),
+  files(
+    'src/PiCalculatorAVXASM.cpp',
+    'src/PiCalculatorAVXIntrin.cpp'
+  ),
   asm_gen.process('src/PiCalculatorAVXASM.asm')
 ]
 
 pi_calculator_avx_lib = library('pi-calculator-avx', pi_calculator_avx_src,
+  cpp_args : '-mavx',
   dependencies : pi_calculator_common_dep,
   include_directories : pi_calculator_avx_inc,
   install : true
