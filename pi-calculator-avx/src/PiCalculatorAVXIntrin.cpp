@@ -1,6 +1,8 @@
 #include "PiCalculatorAVXIntrin.hpp"
 
 #include <cstddef>
+#include <iterator>
+#include <numeric>
 
 #include <immintrin.h>
 
@@ -21,11 +23,8 @@ double PiCalculatorAVXIntrin::_calculate() {
     indices_ = _mm256_add_pd(indices_, four_);
   }
 
-  const __m256d permutated_ = _mm256_permute2f128_pd(sum_, sum_, 1);
-  const __m256d halvesAdded_ = _mm256_add_pd(sum_, permutated_);
-  const __m256d horizontallyAdded_ = _mm256_hadd_pd(halvesAdded_, halvesAdded_);
-
   double sum[4] __attribute__((aligned(32)));
-  _mm256_store_pd(sum, horizontallyAdded_);
-  return sum[0] * STEP_SIZE;
+  _mm256_store_pd(sum, sum_);
+  const double hsum = std::accumulate(std::begin(sum), std::end(sum), 0.);
+  return hsum * STEP_SIZE;
 }
