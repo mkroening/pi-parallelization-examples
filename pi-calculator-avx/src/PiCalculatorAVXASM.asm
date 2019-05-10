@@ -1,9 +1,8 @@
+%include "PiCalculator.asm"
+
 DEFAULT REL
 
 global piCalculatorAVXASM_calculate
-
-%define STEP_COUNT 1000000
-%define STEP_SIZE 1.e-6
 
 SECTION .rodata   align=32
         indices dq      __float64__(0.5), __float64__(1.5), __float64__(2.5), __float64__(3.5)

@@ -25,6 +25,7 @@ asm_gen = generator(nasm,
   output : '@BASENAME@.o',
   arguments : [
     '-f', asm_format,
+    '-I', '@SOURCE_DIR@/pi-calculator-common/include',
     '-o', '@OUTPUT@',
     '@INPUT@'
     ]

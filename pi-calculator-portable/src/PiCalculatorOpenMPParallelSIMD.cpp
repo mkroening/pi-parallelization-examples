@@ -2,9 +2,6 @@
 
 #include <cstddef>
 
-#define STEP_COUNT 1000000
-#define STEP_SIZE (1. / STEP_COUNT)
-
 double PiCalculatorOpenMPParallelSIMD::_calculate() {
   double sum = 0.;
 
