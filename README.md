@@ -38,23 +38,82 @@ The summands can be computed independently. We will explore and benchmark some s
 ## [Compiling](https://mesonbuild.com/Running-Meson.html)
 
 To setup a [build directory](http://voices.canonical.com/jussi.pakkanen/2013/04/16/why-you-should-consider-using-separate-build-directories/)
-called `buildclangrelease` to build with [Clang](https://clang.llvm.org/), full optimization and without debug info, run:
+called `buildclangrelease` to build with [Clang](https://clang.llvm.org/), full [native optimization](https://wiki.gentoo.org/wiki/GCC_optimization#-march) and without debug info, run:
 
 ```bash
-$ CC=clang CXX=clang++ meson setup --buildtype=release buildclangrelease
+$ CXX=clang++ CXXFLAGS="-march=native" meson setup --buildtype=release buildclangrelease
 ```
 
 The project can be built and tested with:
 
 ```bash
-$ ninja -C buildclangrelease
 $ ninja -C buildclangrelease test
 ```
 
-Run the benchmark with:
+Run the benchmarks with:
 
 ```bash
-$ ./buildclangrelease/pi-calculator-benchmark
+$ ./buildclangrelease/pi-calculator-portable/pi-calculator-portable-benchmark
+$ ./buildclangrelease/pi-calculator-avx/pi-calculator-avx-benchmark
+```
+
+## Comparison
+
+These results are from @mkroening's [Intel Core i7-7500U](https://ark.intel.com/content/www/us/en/ark/products/95451/intel-core-i7-7500u-processor-4m-cache-up-to-3-50-ghz.html).
+
+The project has been built with `Clang 8.0.0` as `release` with different `CXXFLAGS`.
+
+Only one benchmark of `pi-calculator-avx` is listed, since more aggressive optimization does not improve the speed on such specific code.
+
+### No additional `CXXFLAGS`
+
+```
+Benchmark                                  Time           CPU Iterations
+-------------------------------------------------------------------------
+BM_PiCalculatorVanilla               1470575 ns    1468924 ns        473
+BM_PiCalculatorOpenMPSIMD             838745 ns     838071 ns        822
+BM_PiCalculatorOpenMPParallel         769489 ns     764301 ns        769
+BM_PiCalculatorOpenMPParallelSIMD     413227 ns     411954 ns       1696
+```
+
+```
+Benchmark                         Time           CPU Iterations
+----------------------------------------------------------------
+BM_PiCalculatorAVXASM        573359 ns     573062 ns       1214
+BM_PiCalculatorAVXIntrin     573359 ns     573079 ns       1209
+```
+
+### `CXXFLAGS="-mavx"`
+
+```
+Benchmark                                  Time           CPU Iterations
+-------------------------------------------------------------------------
+BM_PiCalculatorVanilla               1582090 ns    1580321 ns        438
+BM_PiCalculatorOpenMPSIMD             670314 ns     669561 ns       1030
+BM_PiCalculatorOpenMPParallel         824931 ns     822780 ns        835
+BM_PiCalculatorOpenMPParallelSIMD     296564 ns     295824 ns       2365
+```
+
+### `CXXFLAGS="-march=native"`
+
+```
+Benchmark                                  Time           CPU Iterations
+-------------------------------------------------------------------------
+BM_PiCalculatorVanilla               1584891 ns    1584221 ns        442
+BM_PiCalculatorOpenMPSIMD             573493 ns     573227 ns       1204
+BM_PiCalculatorOpenMPParallel         826333 ns     825273 ns        794
+BM_PiCalculatorOpenMPParallelSIMD     296294 ns     288988 ns       2424
+```
+
+### `CXXFLAGS="-march=native -Ofast"`
+
+```
+Benchmark                                  Time           CPU Iterations
+-------------------------------------------------------------------------
+BM_PiCalculatorVanilla                573767 ns     573524 ns       1212
+BM_PiCalculatorOpenMPSIMD             573311 ns     573069 ns       1183
+BM_PiCalculatorOpenMPParallel         288170 ns     287855 ns       2425
+BM_PiCalculatorOpenMPParallelSIMD     290118 ns     288521 ns       2428
 ```
 
 ## License
