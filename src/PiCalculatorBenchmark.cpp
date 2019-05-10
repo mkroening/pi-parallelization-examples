@@ -3,8 +3,8 @@
 #include <iostream>
 
 #include "PiCalculator.hpp"
-#include "PiCalculatorAVXIntrin.hpp"
 #include "PiCalculatorAVXASM.hpp"
+#include "PiCalculatorAVXIntrin.hpp"
 #include "PiCalculatorOpenMPParallel.hpp"
 #include "PiCalculatorOpenMPParallelSIMD.hpp"
 #include "PiCalculatorOpenMPSIMD.hpp"

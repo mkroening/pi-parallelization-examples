@@ -3,6 +3,7 @@
 #include "gtest/gtest.h"
 
 #include "PiCalculatorAVXASM.hpp"
+#include "PiCalculatorAVXIntrin.hpp"
 #include "PiCalculatorOpenMPParallel.hpp"
 #include "PiCalculatorOpenMPParallelSIMD.hpp"
 #include "PiCalculatorOpenMPSIMD.hpp"
@@ -36,3 +37,5 @@ PI_CALCULATOR_PORTABLE_TEST(PiCalculatorOpenMPParallel)
 PI_CALCULATOR_PORTABLE_TEST(PiCalculatorOpenMPParallelSIMD)
 
 PI_CALCULATOR_ISA_TEST(PiCalculatorAVXASM, avx)
+
+PI_CALCULATOR_ISA_TEST(PiCalculatorAVXIntrin, avx)
