@@ -38,7 +38,7 @@ subdir('pi-calculator-avx')
 google_benchmark_proj = subproject('google-benchmark')
 google_benchmark_dep = google_benchmark_proj.get_variable('google_benchmark_dep')
 
-executable('pi-calculator-benchmark', 'src/PiCalculatorBenchmark.cpp',
+pi_calculator_benchmark_exe = executable('pi-calculator-benchmark', 'src/PiCalculatorBenchmark.cpp',
   dependencies : [
     pi_calculator_portable_dep,
     pi_calculator_avx_dep,
@@ -46,6 +46,8 @@ executable('pi-calculator-benchmark', 'src/PiCalculatorBenchmark.cpp',
   ],
   install : true
 )
+
+benchmark('pi-calculator-benchmark', pi_calculator_benchmark_exe)
 
 gtest_proj = subproject('gtest')
 gtest_dep = gtest_proj.get_variable('gtest_main_dep')
