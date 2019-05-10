@@ -1,6 +1,6 @@
 #include "benchmark/benchmark.h"
 
-#include "PiCalculatorASMAVX.hpp"
+#include "PiCalculatorAVXASM.hpp"
 #include "PiCalculatorOpenMPParallel.hpp"
 #include "PiCalculatorOpenMPParallelSIMD.hpp"
 #include "PiCalculatorOpenMPSIMD.hpp"
@@ -26,7 +26,7 @@ static auto BM_PiCalculatorOpenMPParallelSIMD =
     BM_PiCalculator<PiCalculatorOpenMPParallelSIMD>;
 BENCHMARK(BM_PiCalculatorOpenMPParallelSIMD);
 
-static auto BM_PiCalculatorASMAVX = BM_PiCalculator<PiCalculatorASMAVX>;
-BENCHMARK(BM_PiCalculatorASMAVX);
+static auto BM_PiCalculatorAVXASM = BM_PiCalculator<PiCalculatorAVXASM>;
+BENCHMARK(BM_PiCalculatorAVXASM);
 
 BENCHMARK_MAIN();

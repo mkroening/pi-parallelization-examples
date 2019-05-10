@@ -2,6 +2,6 @@
 
 #include "PiCalculator.hpp"
 
-struct PiCalculatorASMAVX : PiCalculator<PiCalculatorASMAVX> {
+struct PiCalculatorAVXASM : PiCalculator<PiCalculatorAVXASM> {
   static double _calculate();
 };

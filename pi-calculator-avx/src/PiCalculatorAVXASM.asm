@@ -1,6 +1,6 @@
 DEFAULT REL
 
-global piCalculatorASMAVX_calculate
+global piCalculatorAVXASM_calculate
 
 %define STEP_COUNT 1000000
 %define STEP_SIZE 1.e-6
@@ -14,7 +14,7 @@ SECTION .rodata
         four    dq      __float64__(4.)
 
 SECTION .text
-piCalculatorASMAVX_calculate:
+piCalculatorAVXASM_calculate:
         push    rbx
 
         mov             ebx, STEP_COUNT / 4     ; ebx := loopIndex

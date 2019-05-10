@@ -1,7 +1,7 @@
 pi_calculator_avx_inc = include_directories('include')
 pi_calculator_avx_src = [
-  files('src/PiCalculatorASMAVX.cpp'),
-  asm_gen.process('src/PiCalculatorASMAVX.asm')
+  files('src/PiCalculatorAVXASM.cpp'),
+  asm_gen.process('src/PiCalculatorAVXASM.asm')
 ]
 
 pi_calculator_avx_lib = library('pi-calculator-avx', pi_calculator_avx_src,
