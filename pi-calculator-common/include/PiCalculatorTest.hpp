@@ -1,13 +1,10 @@
+#pragma once
+
 #include <cmath>
 
 #include "gtest/gtest.h"
 
-#include "PiCalculatorAVXASM.hpp"
-#include "PiCalculatorAVXIntrin.hpp"
-#include "PiCalculatorOpenMPParallel.hpp"
-#include "PiCalculatorOpenMPParallelSIMD.hpp"
-#include "PiCalculatorOpenMPSIMD.hpp"
-#include "PiCalculatorVanilla.hpp"
+#include "PiCalculator.hpp"
 
 #define ALLOWED_DEVIATION 1e-12
 
@@ -27,15 +24,3 @@
     ASSERT_TRUE(__builtin_cpu_supports(#isa));                                 \
     PI_CALCULATOR_TEST_BODY(piCalculator)                                      \
   }
-
-PI_CALCULATOR_PORTABLE_TEST(PiCalculatorVanilla)
-
-PI_CALCULATOR_PORTABLE_TEST(PiCalculatorOpenMPSIMD)
-
-PI_CALCULATOR_PORTABLE_TEST(PiCalculatorOpenMPParallel)
-
-PI_CALCULATOR_PORTABLE_TEST(PiCalculatorOpenMPParallelSIMD)
-
-PI_CALCULATOR_ISA_TEST(PiCalculatorAVXASM, avx)
-
-PI_CALCULATOR_ISA_TEST(PiCalculatorAVXIntrin, avx)

@@ -22,3 +22,21 @@ pi_calculator_portable_dep = declare_dependency(
   link_with : pi_calculator_portable_lib,
   include_directories : pi_calculator_portable_inc
 )
+
+pi_calculator_portable_benchmark_exe = executable('pi-calculator-portable-benchmark', 'src/PiCalculatorPortableBenchmark.cpp',
+  dependencies : [
+    pi_calculator_portable_dep,
+    google_benchmark_dep
+  ]
+)
+
+benchmark('pi-calculator-portable-benchmark', pi_calculator_portable_benchmark_exe)
+
+pi_calculator_portable_test_exe = executable('pi-calculator-portable-test', 'src/PiCalculatorPortableTest.cpp',
+  dependencies : [
+    pi_calculator_portable_dep,
+    gtest_dep
+  ]
+)
+
+test('pi-calculator-portable-test', pi_calculator_portable_test_exe)

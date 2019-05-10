@@ -31,34 +31,12 @@ asm_gen = generator(nasm,
     ]
 )
 
-subdir('pi-calculator-common')
-subdir('pi-calculator-portable')
-subdir('pi-calculator-avx')
-
 google_benchmark_proj = subproject('google-benchmark')
 google_benchmark_dep = google_benchmark_proj.get_variable('google_benchmark_dep')
-
-pi_calculator_benchmark_exe = executable('pi-calculator-benchmark', 'src/PiCalculatorBenchmark.cpp',
-  dependencies : [
-    pi_calculator_portable_dep,
-    pi_calculator_avx_dep,
-    google_benchmark_dep
-  ],
-  install : true
-)
-
-benchmark('pi-calculator-benchmark', pi_calculator_benchmark_exe)
 
 gtest_proj = subproject('gtest')
 gtest_dep = gtest_proj.get_variable('gtest_main_dep')
 
-pi_calculator_test_exe = executable('pi-calculator-test', 'src/PiCalculatorTest.cpp',
-  dependencies : [
-    pi_calculator_portable_dep,
-    pi_calculator_avx_dep,
-    gtest_dep
-  ],
-  install : false
-)
-
-test('pi-calculator-test', pi_calculator_test_exe)
+subdir('pi-calculator-common')
+subdir('pi-calculator-portable')
+subdir('pi-calculator-avx')
