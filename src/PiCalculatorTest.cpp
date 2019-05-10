@@ -10,18 +10,29 @@
 
 #define ALLOWED_DEVIATION 1e-12
 
-#define PI_CALCULATOR_TEST(piCalculator)                                       \
+#define PI_CALCULATOR_TEST_BODY(piCalculator)                                  \
+  const double result1 = piCalculator::calculate();                            \
+  const double result2 = piCalculator::calculate();                            \
+  EXPECT_GE(ALLOWED_DEVIATION, std::abs(result1 - M_PI));                      \
+  EXPECT_GE(ALLOWED_DEVIATION, std::abs(result2 - M_PI));
+
+#define PI_CALCULATOR_PORTABLE_TEST(piCalculator)                              \
   TEST(piCalculator##Test, HasCorrectResult) {                                 \
-    const double deviation = std::abs(piCalculator::calculate() - M_PI);       \
-    ASSERT_LE(deviation, ALLOWED_DEVIATION);                                   \
+    PI_CALCULATOR_TEST_BODY(piCalculator)                                      \
   }
 
-PI_CALCULATOR_TEST(PiCalculatorVanilla)
+#define PI_CALCULATOR_ISA_TEST(piCalculator, isa)                              \
+  TEST(piCalculator##Test, HasCorrectResult) {                                 \
+    ASSERT_TRUE(__builtin_cpu_supports(#isa));                                 \
+    PI_CALCULATOR_TEST_BODY(piCalculator)                                      \
+  }
 
-PI_CALCULATOR_TEST(PiCalculatorOpenMPSIMD)
+PI_CALCULATOR_PORTABLE_TEST(PiCalculatorVanilla)
 
-PI_CALCULATOR_TEST(PiCalculatorOpenMPParallel)
+PI_CALCULATOR_PORTABLE_TEST(PiCalculatorOpenMPSIMD)
 
-PI_CALCULATOR_TEST(PiCalculatorOpenMPParallelSIMD)
+PI_CALCULATOR_PORTABLE_TEST(PiCalculatorOpenMPParallel)
 
-PI_CALCULATOR_TEST(PiCalculatorAVXASM)
+PI_CALCULATOR_PORTABLE_TEST(PiCalculatorOpenMPParallelSIMD)
+
+PI_CALCULATOR_ISA_TEST(PiCalculatorAVXASM, avx)

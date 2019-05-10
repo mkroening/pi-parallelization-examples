@@ -1,32 +1,46 @@
 #include "benchmark/benchmark.h"
 
+#include <iostream>
+
+#include "PiCalculator.hpp"
 #include "PiCalculatorAVXASM.hpp"
 #include "PiCalculatorOpenMPParallel.hpp"
 #include "PiCalculatorOpenMPParallelSIMD.hpp"
 #include "PiCalculatorOpenMPSIMD.hpp"
 #include "PiCalculatorVanilla.hpp"
 
-template <class T> static void BM_PiCalculator(benchmark::State &state) {
-  for (auto _ : state) {
-    T::calculate();
+#define BM_PI_CALCULATOR_BODY(piCalculator)                                    \
+  for (auto _ : state) {                                                       \
+    piCalculator::calculate();                                                 \
   }
-}
 
-static auto BM_PiCalculatorVanilla = BM_PiCalculator<PiCalculatorVanilla>;
+#define BM_PI_CALCULATOR_PORTABLE(piCalculator)                                \
+  static void BM_##piCalculator(benchmark::State &state) {                     \
+    BM_PI_CALCULATOR_BODY(piCalculator)                                        \
+  }
+
+#define BM_PI_CALCULATOR_ISA(piCalculator, isa)                                \
+  static void BM_##piCalculator(benchmark::State &state) {                     \
+    if (__builtin_cpu_supports(#isa)) {                                        \
+      BM_PI_CALCULATOR_BODY(piCalculator)                                      \
+    } else {                                                                   \
+      std::cerr << "Warning: CPU does not support ‘" #isa << "’\n";            \
+    }                                                                          \
+  }
+
+BM_PI_CALCULATOR_PORTABLE(PiCalculatorVanilla)
 BENCHMARK(BM_PiCalculatorVanilla);
 
-static auto BM_PiCalculatorOpenMPSIMD = BM_PiCalculator<PiCalculatorOpenMPSIMD>;
+BM_PI_CALCULATOR_PORTABLE(PiCalculatorOpenMPSIMD)
 BENCHMARK(BM_PiCalculatorOpenMPSIMD);
 
-static auto BM_PiCalculatorOpenMPParallel =
-    BM_PiCalculator<PiCalculatorOpenMPParallel>;
+BM_PI_CALCULATOR_PORTABLE(PiCalculatorOpenMPParallel)
 BENCHMARK(BM_PiCalculatorOpenMPParallel);
 
-static auto BM_PiCalculatorOpenMPParallelSIMD =
-    BM_PiCalculator<PiCalculatorOpenMPParallelSIMD>;
+BM_PI_CALCULATOR_PORTABLE(PiCalculatorOpenMPParallelSIMD)
 BENCHMARK(BM_PiCalculatorOpenMPParallelSIMD);
 
-static auto BM_PiCalculatorAVXASM = BM_PiCalculator<PiCalculatorAVXASM>;
+BM_PI_CALCULATOR_ISA(PiCalculatorAVXASM, avx)
 BENCHMARK(BM_PiCalculatorAVXASM);
 
 BENCHMARK_MAIN();
