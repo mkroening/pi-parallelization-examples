@@ -5,7 +5,7 @@ Benchmarking several strategies for parallelly computing pi.
 This project is largely inspired by
 
   * the course ["Foundations of Computer Science 4"](https://gi4.rwth-aachen.de/) at RWTH Aachen University
-    * Much of the assembly code is based on [os/gi4/chapter2/pi](https://git.rwth-aachen.de/os/gi4/tree/master/chapter2/pi)
+    * Much of the assembly code is based on [os/gi4/chapter2/pi](https://git.rwth-aachen.de/os/gi4/tree/master/chapter2/pi).
   * the ["Parallelism in C++"](https://www.youtube.com/playlist?list=PLzLzYGEbdY5lrUYSssHfk5ahwZERojgid) video series ([repository](https://github.com/bisqwit/cpp_parallelization_examples)) by [Bisqwit](https://www.youtube.com/user/Bisqwit)
 
 ## Introduction
@@ -38,7 +38,7 @@ The summands can be computed independently. We will explore and benchmark some s
 ## [Compiling](https://mesonbuild.com/Running-Meson.html)
 
 To setup a [build directory](http://voices.canonical.com/jussi.pakkanen/2013/04/16/why-you-should-consider-using-separate-build-directories/)
-called `buildclangrelease` to build with [Clang](https://clang.llvm.org/), full [native optimization](https://wiki.gentoo.org/wiki/GCC_optimization#-march) and without debug info, run:
+called `buildclangrelease` to build with [Clang](https://clang.llvm.org/), full native optimization and without debug info, run:
 
 ```bash
 $ CXX=clang++ CXXFLAGS="-march=native" meson setup --buildtype=release buildclangrelease
@@ -85,6 +85,9 @@ BM_PiCalculatorAVXIntrin     573359 ns     573079 ns       1209
 
 ### `CXXFLAGS="-mavx"`
 
+Explicitly enable [`AVX`](https://en.wikipedia.org/wiki/Advanced_Vector_Extensions)
+instructions. Requires a CPU which supports `AVX` to run.
+
 ```
 Benchmark                                  Time           CPU Iterations
 -------------------------------------------------------------------------
@@ -96,6 +99,9 @@ BM_PiCalculatorOpenMPParallelSIMD     296564 ns     295824 ns       2365
 
 ### `CXXFLAGS="-march=native"`
 
+Generate code specific to the system's CPU. For more info see the
+[Gentoo Wiki](https://wiki.gentoo.org/wiki/GCC_optimization#-march).
+
 ```
 Benchmark                                  Time           CPU Iterations
 -------------------------------------------------------------------------
@@ -106,6 +112,13 @@ BM_PiCalculatorOpenMPParallelSIMD     296294 ns     288988 ns       2424
 ```
 
 ### `CXXFLAGS="-march=native -Ofast"`
+
+`-Ofast` is not recommended for use in production. It disregards strict standard
+compliance in favour of most agressive speed optimizations.
+See [Stack Overflow](https://stackoverflow.com/a/22135559/8400725) for what
+`-ffast-math`, which among others is enabled by `-Ofast`, does to floating point
+operations. See the [Gentoo Wiki](https://wiki.gentoo.org/wiki/GCC_optimization#-O)
+for more information on optimization levels.
 
 ```
 Benchmark                                  Time           CPU Iterations
